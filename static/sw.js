@@ -1,7 +1,6 @@
 const CACHE_NAME = "vert-wasm-cache-v1";
 
 const WASM_FILES = [
-	"/pandoc.wasm",
 	"https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm/ffmpeg-core.js",
 	"https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm/ffmpeg-core.wasm",
 ];
@@ -10,6 +9,7 @@ const WASM_URL_PATTERNS = [
 	/\/src\/lib\/workers\/.*\.js$/, // dev mode worker files
 	/\/assets\/.*worker.*\.js$/, // prod worker files
 	/magick.*\.wasm$/, // magick-wasm (unneeded?)
+	/pandoc\.wasm$/, // pandoc.wasm when loaded from external source
 ];
 
 function shouldCacheUrl(url) {

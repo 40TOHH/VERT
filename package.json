@@ -22,6 +22,7 @@
 		"autoprefixer": "^10.4.21",
 		"css-select": "5.1.0",
 		"eslint": "^9.36.0",
+		"pandoc-wasm": "^0.0.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.15.0",

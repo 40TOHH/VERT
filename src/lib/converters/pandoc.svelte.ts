@@ -1,132 +1,106 @@
-import { VertFile, type WorkerMessage } from "$lib/types";
+import { VertFile } from "$lib/types";
 import { Converter, FormatInfo } from "./converter.svelte";
 import { browser } from "$app/environment";
-import PandocWorker from "$lib/workers/pandoc?worker&url";
 import { error, log } from "$lib/logger";
 import { ToastManager } from "$lib/toast/index.svelte";
 import { m } from "$lib/paraglide/messages";
+import { Pandoc as PandocWasm } from "pandoc-wasm";
+
+type Format =
+	| ".md"
+	| ".docx"
+	| ".csv"
+	| ".tsv"
+	| ".json"
+	| ".doc"
+	| ".rtf"
+	| ".rst"
+	| ".epub"
+	| ".odt"
+	| ".docbook"
+	| ".html"
+	| ".markdown";
 
 export class PandocConverter extends Converter {
 	public name = "pandoc";
 	public ready = $state(false);
-	public wasm: ArrayBuffer = null!;
 
-	private activeConversions = new Map<string, Worker>();
+	private pandocInstance: PandocWasm | null = null;
+	private initPromise: Promise<void> | null = null;
 
 	constructor() {
 		super();
 		if (!browser) return;
-		(async () => {
+		// Initialize pandoc when needed
+		this.status = "ready";
+		this.ready = true;
+	}
+
+	private async ensureInitialized(): Promise<PandocWasm> {
+		if (this.pandocInstance) {
+			return this.pandocInstance;
+		}
+
+		if (this.initPromise) {
+			await this.initPromise;
+			return this.pandocInstance!;
+		}
+
+		this.initPromise = (async () => {
 			try {
 				this.status = "downloading";
-				this.wasm = await fetch("/pandoc.wasm").then((r) =>
-					r.arrayBuffer(),
-				);
-
+				this.pandocInstance = new PandocWasm();
+				await this.pandocInstance.init();
 				this.status = "ready";
 			} catch (err) {
 				this.status = "error";
 				error(
 					["converters", this.name],
-					`Failed to load Pandoc worker: ${err}`,
+					`Failed to initialize Pandoc: ${err}`,
 				);
 				ToastManager.add({
 					type: "error",
 					message: m["workers.errors.pandoc"](),
 				});
+				throw err;
 			}
 		})();
+
+		await this.initPromise;
+		return this.pandocInstance!;
 	}
 
 	public async convert(file: VertFile, to: string): Promise<VertFile> {
-		const worker = new Worker(PandocWorker, {
-			type: "module",
-		});
+		const pandoc = await this.ensureInitialized();
 
-		this.activeConversions.set(file.id, worker);
+		try {
+			const inputText = await file.file.text();
+			const result = await pandoc.run({
+				text: inputText,
+				options: {
+					from: this.formatToReader(file.from),
+					to: this.formatToReader(to)
+				},
+			});
 
-		const loadMsg: WorkerMessage = {
-			type: "load",
-			wasm: this.wasm,
-			id: file.id,
-		};
-		worker.postMessage(loadMsg);
-		await waitForMessage(worker, "loaded");
-		const convertMsg: WorkerMessage = {
-			type: "convert",
-			to,
-			input: {
-				file: file.file,
-				name: file.name,
-				from: file.from,
-				to,
-			},
-			compression: null,
-			id: file.id,
-		};
-		worker.postMessage(convertMsg);
-		const result = await waitForMessage(worker);
-		if (result.type === "error") {
-			worker.terminate();
-			// throw new Error(result.error);
-			const error = result.error.toString();
-			switch (result.errorKind) {
-				case "PandocUnknownReaderError": {
-					throw new Error(
-						`${file.from} is not a supported input format for documents.`,
-					);
-				}
+			if (!to.startsWith(".")) to = `.${to}`;
 
-				case "PandocUnknownWriterError": {
-					throw new Error(
-						`${to} is not a supported output format for documents.`,
-					);
-				}
-
-				case "PandocParseError": {
-					if (error.includes("JSON missing pandoc-api-version")) {
-						throw new Error(
-							`This JSON file is not a pandoc-converted JSON file. It must be converted with pandoc / VERT to be converted again.`,
-						);
-					}
-				}
-
-				// eslint-disable-next-line no-fallthrough
-				default:
-					if (result.errorKind)
-						throw new Error(
-							`[${result.errorKind}] ${result.error}`,
-						);
-					else throw new Error(result.error);
-			}
+			return new VertFile(
+				new File([result], `${file.name.split('.')[0] || 'converted'}${to}`),
+				to
+			);
+		} catch (err) {
+			error(
+				["converters", this.name],
+				`Failed to convert document: ${err}`,
+			);
+			throw err;
 		}
-
-		if (!to.startsWith(".")) to = `.${to}`;
-		this.activeConversions.delete(file.id);
-		worker.terminate();
-		return new VertFile(
-			new File([result.output], file.name),
-			result.isZip ? ".zip" : to,
-		);
 	}
 
 	public async cancel(input: VertFile): Promise<void> {
-		const worker = this.activeConversions.get(input.id);
-		if (!worker) {
-			error(
-				["converters", this.name],
-				`no active conversion found for file ${input.name}`,
-			);
-			return;
-		}
-
-		log(
-			["converters", this.name],
-			`cancelling conversion for file ${input.name}`,
-		);
-
-		worker.terminate();
-		this.activeConversions.delete(input.id);
+		// No active worker in this implementation, cancellation not needed
+		// pandoc-wasm runs synchronously in the main thread
 	}
 
 	public supportedFormats = [
@@ -143,20 +117,36 @@ export class PandocConverter extends Converter {
 		new FormatInfo("odt", true, true),
 		new FormatInfo("docbook", true, true),
 	];
-}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function waitForMessage(worker: Worker, type?: string): Promise<any> {
-	return new Promise((resolve) => {
-		const onMessage = (e: MessageEvent) => {
-			if (type && e.data.type === type) {
-				worker.removeEventListener("message", onMessage);
-				resolve(e.data);
-			} else {
-				worker.removeEventListener("message", onMessage);
-				resolve(e.data);
-			}
-		};
-		worker.addEventListener("message", onMessage);
-	});
+	// Helper function to convert format to pandoc reader format
+	private formatToReader(format: string): string {
+		switch (format) {
+			case ".md":
+			case ".markdown":
+				return "markdown";
+			case ".doc":
+			case ".docx":
+				return "docx";
+			case ".csv":
+				return "csv";
+			case ".tsv":
+				return "tsv";
+			case ".docbook":
+				return "docbook";
+			case ".epub":
+				return "epub";
+			case ".html":
+				return "html";
+			case ".json":
+				return "json";
+			case ".odt":
+				return "odt";
+			case ".rtf":
+				return "rtf";
+			case ".rst":
+				return "rst";
+			default:
+				return format.substring(1); // Remove the dot and return as is
+		}
+	}
 }
