@@ -1,62 +1,42 @@
-import { VertFile } from "$lib/types";
+import { VertFile, type WorkerMessage } from "$lib/types";
 import { Converter, FormatInfo } from "./converter.svelte";
 import { browser } from "$app/environment";
+import PandocWorker from "$lib/workers/pandoc?worker&url";
 import { error, log } from "$lib/logger";
 import { ToastManager } from "$lib/toast/index.svelte";
 import { m } from "$lib/paraglide/messages";
-import { Pandoc as PandocWasm } from "pandoc-wasm";
-
-type Format =
-	| ".md"
-	| ".docx"
-	| ".csv"
-	| ".tsv"
-	| ".json"
-	| ".doc"
-	| ".rtf"
-	| ".rst"
-	| ".epub"
-	| ".odt"
-	| ".docbook"
-	| ".html"
-	| ".markdown";
 
 export class PandocConverter extends Converter {
 	public name = "pandoc";
 	public ready = $state(false);
 
-	private pandocInstance: PandocWasm | null = null;
-	private initPromise: Promise<void> | null = null;
+	private activeConversions = new Map<string, Worker>();
+	private wasmCache: ArrayBuffer | null = null;
 
 	constructor() {
 		super();
 		if (!browser) return;
-		// Initialize pandoc when needed
+		// Initialize without preloading WASM to reduce initial load
 		this.status = "ready";
 		this.ready = true;
 	}
 
-	private async ensureInitialized(): Promise<PandocWasm> {
-		if (this.pandocInstance) {
-			return this.pandocInstance;
-		}
-
-		if (this.initPromise) {
-			await this.initPromise;
-			return this.pandocInstance!;
-		}
-
-		this.initPromise = (async () => {
+	public async convert(file: VertFile, to: string): Promise<VertFile> {
+		// Load WASM if not cached
+		if (!this.wasmCache) {
+			this.status = "downloading";
 			try {
-				this.status = "downloading";
-				this.pandocInstance = new PandocWasm();
-				await this.pandocInstance.init();
-				this.status = "ready";
+				// Load from official instance
+				const response = await fetch("https://vert.sh/pandoc.wasm");
+				if (!response.ok) {
+					throw new Error(`Failed to download pandoc.wasm: ${response.status} ${response.statusText}`);
+				}
+				this.wasmCache = await response.arrayBuffer();
 			} catch (err) {
 				this.status = "error";
 				error(
 					["converters", this.name],
-					`Failed to initialize Pandoc: ${err}`,
+					`Failed to load Pandoc WASM: ${err}`,
 				);
 				ToastManager.add({
 					type: "error",
@@ -64,51 +44,98 @@ export class PandocConverter extends Converter {
 				});
 				throw err;
 			}
-		})();
-
-		await this.initPromise;
-		return this.pandocInstance!;
-	}
-
-	public async convert(file: VertFile, to: string): Promise<VertFile> {
-		const pandoc = await this.ensureInitialized();
-
-		try {
-			// Check if the file is a text-based format that pandoc can handle
-			let inputText: string;
-			if (file.file.type && file.file.type.startsWith('text/')) {
-				inputText = await file.file.text();
-			} else {
-				// Try to read as text regardless - pandoc expects text input
-				inputText = await file.file.text();
-			}
-
-			const result = await pandoc.run({
-				text: inputText,
-				options: {
-					from: this.formatToReader(file.from),
-					to: this.formatToReader(to)
-				},
-			});
-
-			if (!to.startsWith(".")) to = `.${to}`;
-
-			return new VertFile(
-				new File([result], `${file.name.split('.')[0] || 'converted'}${to}`),
-				to
-			);
-		} catch (err) {
-			error(
-				["converters", this.name],
-				`Failed to convert document: ${err}`,
-			);
-			throw err;
+			this.status = "ready";
 		}
+
+		const worker = new Worker(PandocWorker, {
+			type: "module",
+		});
+
+		this.activeConversions.set(file.id, worker);
+
+		const loadMsg: WorkerMessage = {
+			type: "load",
+			wasm: this.wasmCache,
+			id: file.id,
+		};
+		worker.postMessage(loadMsg);
+
+		// Wait for worker to load the WASM
+		await new Promise((resolve, reject) => {
+			const timeout = setTimeout(() => reject(new Error("Pandoc worker load timeout")), 30000);
+
+			const onLoadMessage = (e: MessageEvent) => {
+				if (e.data.type === "loaded" && e.data.id === "0") {
+					clearTimeout(timeout);
+					worker.removeEventListener("message", onLoadMessage);
+					resolve(e.data);
+				}
+			};
+
+			worker.addEventListener("message", onLoadMessage);
+		});
+
+		const convertMsg: WorkerMessage = {
+			type: "convert",
+			to,
+			input: {
+				file: file.file,
+				name: file.name,
+				from: file.from,
+				to,
+			},
+			compression: null,
+			id: file.id,
+		};
+		worker.postMessage(convertMsg);
+
+		// Wait for conversion result
+		const result = await new Promise((resolve, reject) => {
+			const timeout = setTimeout(() => reject(new Error("Pandoc conversion timeout")), 60000);
+
+			const onResultMessage = (e: MessageEvent) => {
+				if (e.data.id === file.id) {
+					clearTimeout(timeout);
+					worker.removeEventListener("message", onResultMessage);
+					if (e.data.type === "error") {
+						// Handle different error types as needed
+						reject(new Error(e.data.error));
+					} else {
+						resolve(e.data);
+					}
+				}
+			};
+
+			worker.addEventListener("message", onResultMessage);
+		});
+
+		if (!to.startsWith(".")) to = `.${to}`;
+		this.activeConversions.delete(file.id);
+		worker.terminate();
+
+		return new VertFile(
+			new File([result.output], file.name),
+			result.isZip ? ".zip" : to,
+		);
 	}
 
 	public async cancel(input: VertFile): Promise<void> {
-		// No active worker in this implementation, cancellation not needed
-		// pandoc-wasm runs synchronously in the main thread
+		const worker = this.activeConversions.get(input.id);
+		if (!worker) {
+			error(
+				["converters", this.name],
+				`no active conversion found for file ${input.name}`,
+			);
+			return;
+		}
+
+		log(
+			["converters", this.name],
+			`cancelling conversion for file ${input.name}`,
+		);
+
+		worker.terminate();
+		this.activeConversions.delete(input.id);
 	}
 
 	public supportedFormats = [
@@ -125,36 +152,4 @@ export class PandocConverter extends Converter {
 		new FormatInfo("odt", true, true),
 		new FormatInfo("docbook", true, true),
 	];
-
-	// Helper function to convert format to pandoc reader format
-	private formatToReader(format: string): string {
-		switch (format) {
-			case ".md":
-			case ".markdown":
-				return "markdown";
-			case ".doc":
-			case ".docx":
-				return "docx";
-			case ".csv":
-				return "csv";
-			case ".tsv":
-				return "tsv";
-			case ".docbook":
-				return "docbook";
-			case ".epub":
-				return "epub";
-			case ".html":
-				return "html";
-			case ".json":
-				return "json";
-			case ".odt":
-				return "odt";
-			case ".rtf":
-				return "rtf";
-			case ".rst":
-				return "rst";
-			default:
-				return format.substring(1); // Remove the dot and return as is
-		}
-	}
 }
