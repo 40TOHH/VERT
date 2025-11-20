@@ -9,7 +9,6 @@ const WASM_URL_PATTERNS = [
 	/\/src\/lib\/workers\/.*\.js$/, // dev mode worker files
 	/\/assets\/.*worker.*\.js$/, // prod worker files
 	/magick.*\.wasm$/, // magick-wasm (unneeded?)
-	/pandoc\.wasm$/, // pandoc.wasm when loaded from external source
 ];
 
 function shouldCacheUrl(url) {

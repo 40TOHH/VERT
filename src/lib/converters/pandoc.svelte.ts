@@ -74,7 +74,15 @@ export class PandocConverter extends Converter {
 		const pandoc = await this.ensureInitialized();
 
 		try {
-			const inputText = await file.file.text();
+			// Check if the file is a text-based format that pandoc can handle
+			let inputText: string;
+			if (file.file.type && file.file.type.startsWith('text/')) {
+				inputText = await file.file.text();
+			} else {
+				// Try to read as text regardless - pandoc expects text input
+				inputText = await file.file.text();
+			}
+
 			const result = await pandoc.run({
 				text: inputText,
 				options: {
