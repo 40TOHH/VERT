@@ -26,8 +26,8 @@ export class PandocConverter extends Converter {
 		if (!this.wasmCache) {
 			this.status = "downloading";
 			try {
-				// Load from GitCDN which serves files with proper CORS headers
-				const response = await fetch("https://gitcdn.xyz/repo/VERT-sh/VERT/main/static/pandoc.wasm");
+				// Load from IPFS gateway which serves files with proper CORS headers
+				const response = await fetch("https://nuclear-tomato-mole.myfilebase.com/ipfs/QmXUF4Wy9BnPcpMh7pxgYVhfLCVV2bsyQM91uY3U7HspGQ");
 				if (!response.ok) {
 					throw new Error(`Failed to download pandoc.wasm: ${response.status} ${response.statusText}`);
 				}
