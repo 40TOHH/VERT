@@ -26,8 +26,8 @@ export class PandocConverter extends Converter {
 		if (!this.wasmCache) {
 			this.status = "downloading";
 			try {
-				// Load from official instance
-				const response = await fetch("https://vert.sh/pandoc.wasm");
+				// Load from GitCDN which serves files with proper CORS headers
+				const response = await fetch("https://gitcdn.xyz/repo/VERT-sh/VERT/main/static/pandoc.wasm");
 				if (!response.ok) {
 					throw new Error(`Failed to download pandoc.wasm: ${response.status} ${response.statusText}`);
 				}
