@@ -436,6 +436,7 @@ export const availableLocales = {
 	el: "Ελληνικά",
 	"zh-Hans": "简体中文",
 	"zh-Hant": "繁體中文",
+	ru: "Русский",
 };
 
 export function updateLocale(newLocale: string) {

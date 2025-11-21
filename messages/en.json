@@ -14,8 +14,55 @@
 		"privacy_policy": "Privacy policy"
 	},
 	"upload": {
-		"title": "The file converter you'll love.",
-		"subtitle": "All image, audio, and document processing is done on your device. Videos are converted on our lightning-fast servers. No file size limit, no ads, and completely open source.",
+		"title": "Online File Converter You'll Love",
+		"subtitle": "Free online file converter with no restrictions. Convert images, audio, and documents. No file size limit.",
+		"stats": {
+			"title": "Why Choose ***?",
+			"files_converted": "500K+",
+			"formats_supported": "200+",
+			"zero_latency": "0 seconds",
+			"total_combinations": "Conversion Combinations",
+			"image_formats": "Image Formats",
+			"audio_formats": "Audio Formats",
+			"video_formats": "Video Formats",
+			"document_formats": "Document Formats",
+			"why_vert": "Why VERT?"
+		},
+		"features": {
+			"title": "Convert PNG to JPG, WebP to JPG, MKV to MP4, WAV to MP3, and any other formats online for free",
+			"speed": "File converter *** works faster than any alternative. Convert images, audio, documents, and videos to any format without delays.",
+			"local_processing": "Conversion on Your Device",
+			"local_processing_desc": "Images, audio, and documents are converted directly in the browser. Files never leave your device. No delays sending and receiving data from a server. Complete privacy.",
+			"server_processing": "Powerful Servers for Video",
+			"server_processing_desc": "Videos are converted on servers. Upload your file and get results several times faster than competitors. All files are automatically deleted after one hour.",
+			"all_formats": "Support for All Popular Formats",
+			"all_formats_desc": "Convert PNG to JPG, WebP to PNG, MKV to MP4, AVI to MP4, WAV to MP3, DOCX to PDF, PDF to Word online. Support for more than 200 formats including images, audio, documents, and video.",
+			"no_restrictions": "No Restrictions",
+			"no_restrictions_desc": "No file size limits. No registration required. Simply upload a file and get results. Completely free online converter."
+		},
+		"how_it_works": {
+			"title": "How Online File Conversion Works?",
+			"subtitle": "Just 3 Simple Steps to Convert Any File",
+			"step1": {
+				"title": "Upload File",
+				"description": "Select an image, audio, document, or video from your device."
+			},
+			"step2": {
+				"title": "Select Format",
+				"description": "Specify which format to convert to. Supports PNG, JPG, WebP, MP3, WAV, MP4, MKV, PDF, DOCX and 200+ other formats."
+			},
+			"step3": {
+				"title": "Download Result",
+				"description": "Get your converted file in just seconds. Images and audio are processed instantly, videos are faster than any alternative."
+			}
+		},
+		"try_now": {
+			"title": "Try It Right Now!",
+			"description": "Upload a file and convert it in seconds. No registration, no limits. Works in all browsers on computer and phone.",
+			"button": "Go to Converter",
+			"file_selected": "File Uploaded",
+			"choose_format": "Select Conversion Format"
+		},
 		"uploader": {
 			"text": "Drop or click to {action}",
 			"convert": "convert"
@@ -209,7 +256,7 @@
 		"title": "About",
 		"why": {
 			"title": "Why VERT?",
-			"description": "<b>File converters have always disappointed us.</b> They're ugly, riddled with ads, and most importantly; slow. We decided to solve this problem once and for all by making an alternative that solves all those problems, and more.<br/><br/>All non-video files are converted completely on-device; this means that there's no delay between sending and receiving the files from a server, and we never get to snoop on the files you convert.<br/><br/>Video files get uploaded to our lightning-fast RTX 4000 Ada server. Your videos stay on there for an hour if you do not convert them. If you do convert the file, the video will stay on the server for an hour, or until it is downloaded. The file will then be deleted from our server."
+			"description": "<b>We created an online file converter that solves all the problems of existing services. Fast, private.</b><br/><br/>Maximum speed: Image, audio, and document converters work directly in the browser. No server delays. Videos are processed on powerful servers multiple times faster than competitors.<br/><br/>Complete privacy: Photos, audio, and documents never leave your device. Videos are automatically deleted from the server after one hour. We don't store or look at your files."
 		},
 		"sponsors": {
 			"title": "Sponsors",
@@ -308,5 +355,58 @@
 			"description": "For questions, email us at: [email_link]hello@vert.sh[/email_link]. If you are using a third-party instance of VERT, please contact the hoster of that instance instead."
 		},
 		"last_updated": "Last updated: 2025-10-29"
+	},
+	"faq": {
+		"title": "Frequently Asked Questions",
+		"questions": {
+			"is_free": {
+				"question": "Is it free?",
+				"answer": "Yes. The converter is completely free. No paid subscriptions or hidden payments. All features are available without restrictions."
+			},
+			"is_safe": {
+				"question": "Is it safe to upload files?",
+				"answer": "Yes. Images, audio, and documents are converted directly in the browser. They never leave your device. Videos are uploaded to the server but automatically deleted after one hour. We don't store or view your files."
+			},
+			"formats_supported": {
+				"question": "What formats are supported?",
+				"answer": "We support more than 200 formats. Images: PNG, JPG, WebP, HEIC, SVG, GIF, AVIF and others. Audio: MP3, WAV, FLAC, OGG, AAC, M4A and others. Video: MP4, MKV, AVI, MOV, WebM, FLV and others. Documents: PDF, DOCX, DOC, HTML, EPUB, ODT and others."
+			},
+			"file_size_limit": {
+				"question": "Are there any file size limits?",
+				"answer": "No. You can upload files of any size. There are no limits for images, videos, or documents."
+			},
+			"registration_required": {
+				"question": "Is registration required?",
+				"answer": "No. Simply open the website, upload a file, and convert. No email, no password, no personal data."
+			},
+			"mobile_compatible": {
+				"question": "Does it work on phones?",
+				"answer": "Yes. *** works in all browsers on phones and tablets. The interface is adapted for mobile devices."
+			},
+			"why_video_server": {
+				"question": "Why are videos converted on the server?",
+				"answer": "Video conversion requires a lot of resources. Your phone or computer might not handle it or will work slowly. Our servers convert videos several times faster. All files are deleted after an hour."
+			},
+			"quality_loss": {
+				"question": "Is quality lost during conversion?",
+				"answer": "Depends on the format. During PNG to JPG or WebP to JPG conversion, there might be slight compression. But you can manually adjust quality. Most conversions happen without quality loss."
+			},
+			"supported_browsers": {
+				"question": "Which browsers are supported?",
+				"answer": "Chrome, Firefox, Safari, Edge, and other modern browsers. If the browser was released in the last 2-3 years, VERT will work."
+			},
+			"batch_conversion": {
+				"question": "Can I convert multiple files at once?",
+				"answer": "Yes. Upload several files simultaneously. They will be processed one by one. You can download each file separately or all together as an archive."
+			},
+			"metadata_preserved": {
+				"question": "Are file metadata preserved?",
+				"answer": "Depends on the format. In most cases, basic metadata is preserved. If you want to remove metadata, you can use our cleaning tool before conversion."
+			},
+			"why_faster": {
+				"question": "Why does *** work faster than other converters?",
+				"answer": "Images, audio, and documents are processed on your device. No server delays. Videos are converted on powerful servers that are 5-10 times faster than regular processors."
+			}
+		}
 	}
 }

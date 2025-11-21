@@ -60,6 +60,12 @@
 			activeMatch: (pathname) => pathname.startsWith("/about"),
 			icon: InfoIcon,
 		},
+		{
+			name: m["faq.title"](),
+			url: "/faq/",
+			activeMatch: (pathname) => pathname.startsWith("/faq"),
+			icon: InfoIcon,
+		},
 	]);
 
 	let links = $state<HTMLAnchorElement[]>([]);

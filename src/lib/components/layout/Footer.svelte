@@ -6,6 +6,7 @@
 		[m["footer.source_code"](), GITHUB_URL_VERT],
 		[m["footer.discord_server"](), DISCORD_URL],
 		[m["footer.privacy_policy"](), "/privacy"],
+		[m["faq.title"](), "/faq"],
 	]);
 
 	const year = new Date().getFullYear();
