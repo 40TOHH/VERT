@@ -1,9 +1,9 @@
 /**
  * Comprehensive Sitemap Generator Service for VERT Application
- * 
+ *
  * This service generates sitemaps for all pages, including multilingual versions,
  * with proper priority and changefreq values based on page importance.
- * 
+ *
  * Features:
  * - Complete page coverage (home, categories, static pages, blog)
  * - Multilingual support with hreflang tags
@@ -14,12 +14,14 @@
 
 import { locales, baseLocale } from '$lib/paraglide/runtime';
 import { dev } from '$app/environment';
+import { getAllFormatPairs } from '$lib/conversion-data';
 
 // Define page priorities based on importance
 const PAGE_PRIORITIES = {
   home: 1.0,
   main_sections: 0.9,  // convert, about
   secondary_sections: 0.7,  // settings, faq, privacy
+  conversion_pages: 0.5, // specific priority for conversion pages
   default: 0.5
 };
 
@@ -119,9 +121,9 @@ export class SitemapService {
         // Other pages
         path = locale === baseLocale ? route.path : `/${locale}${route.path}`;
       }
-      
+
       const fullUrl = `${this.hostname}${path}`;
-      
+
       // Generate hreflang links for all locales to this same page
       const alternateLinks = locales.map(loc => {
         let hreflangPath: string;
@@ -145,10 +147,75 @@ export class SitemapService {
       });
     }
 
-    // TODO: Add any dynamic routes when implemented (e.g., if formats have individual pages)
-    // For now, we only have static routes
-    
+    // Add dynamic conversion routes with multilingual support
+    const formatPairs = getAllFormatPairs();
+
+    for (const pair of formatPairs) {
+      const priority = this.getPriorityForConversion(pair.from, pair.to);
+      const changeFreq = CHANGE_FREQ.weekly;
+
+      // Determine the URL path for this locale
+      let path: string;
+      if (locale === baseLocale) {
+        // For base locale, don't include locale prefix in URL
+        path = `/convert/${pair.from.substring(1)}/${pair.to.substring(1)}`;
+      } else {
+        // For other locales, include locale prefix
+        path = `/${locale}/convert/${pair.from.substring(1)}/${pair.to.substring(1)}`;
+      }
+
+      const fullUrl = `${this.hostname}${path}`;
+
+      // Generate hreflang links for all locales to this same page
+      const alternateLinks = locales.map(loc => {
+        let hreflangPath: string;
+        if (loc === baseLocale) {
+          hreflangPath = `/convert/${pair.from.substring(1)}/${pair.to.substring(1)}`;
+        } else {
+          hreflangPath = `/${loc}/convert/${pair.from.substring(1)}/${pair.to.substring(1)}`;
+        }
+        return {
+          hreflang: loc,
+          href: `${this.hostname}${hreflangPath}`
+        };
+      });
+
+      urls.push({
+        loc: fullUrl,
+        lastmod: this.lastmod,
+        changefreq: changeFreq,
+        priority,
+        alternateLinks
+      });
+    }
+
     return urls;
+  }
+
+  /**
+   * Determine priority for a specific conversion based on format popularity
+   */
+  private getPriorityForConversion(from: string, to: string): number {
+    // Common formats get higher priority
+    const commonFormats = [
+      'jpg', 'png', 'gif', // Common image formats
+      'mp3', 'wav',       // Common audio formats
+      'mp4', 'avi',       // Common video formats
+      'pdf', 'doc', 'docx' // Common document formats
+    ];
+
+    // If both formats are common, assign higher priority
+    if (commonFormats.includes(from) && commonFormats.includes(to)) {
+      return 0.80;
+    }
+
+    // If at least one format is common, assign medium-high priority
+    if (commonFormats.includes(from) || commonFormats.includes(to)) {
+      return 0.60;
+    }
+
+    // For other conversions, assign medium priority
+    return 0.40;
   }
 
   /**
