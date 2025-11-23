@@ -90,6 +90,11 @@
 		if (selectedLocale && selectedLocale !== currentLocale) {
 			currentLocale = selectedLocale;
 			updateLocale(selectedLocale);
+
+			// Reload the page to ensure all content updates properly with the new locale
+			if (typeof window !== 'undefined') {
+				location.reload();
+			}
 		}
 	}
 </script>

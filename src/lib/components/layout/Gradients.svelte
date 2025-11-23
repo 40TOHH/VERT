@@ -11,33 +11,62 @@
 	import { fade } from "$lib/animation";
 	import { Tween } from "svelte/motion";
 
+	// Define the supported locales
+	const supportedLocales = ["en", "es", "fr", "de", "it", "hr", "tr", "ja", "ko", "el", "id", "zh-Hans", "zh-Hant", "ru"];
+
+	// Helper function to remove locale prefix from pathname
+	const removeLocalePrefix = (pathname: string) => {
+		const pathParts = pathname.split('/').filter(part => part !== '');
+
+		if (pathParts.length > 0 && supportedLocales.includes(pathParts[0])) {
+			// If first part is a locale, return the rest with leading slash
+			return '/' + pathParts.slice(1).join('/') + (pathname.endsWith('/') && pathParts.length > 1 ? '/' : '');
+		}
+		return pathname;
+	};
+
 	const colors: {
 		matcher: (path: string) => boolean;
 		color: string;
 		at: number;
 	}[] = $derived([
 		{
-			matcher: (path) => path === "/",
+			matcher: (path) => {
+				const normalizedPath = removeLocalePrefix(path);
+				return normalizedPath === "/" || normalizedPath === "";
+			},
 			color: "var(--bg-gradient-from)",
 			at: 100,
 		},
 		{
-			matcher: (path) => path === "/convert/",
+			matcher: (path) => {
+				const normalizedPath = removeLocalePrefix(path);
+				return normalizedPath === "/convert/" || normalizedPath === "/convert";
+			},
 			color: `var(--bg-gradient-${$gradientColor ? $gradientColor + "-" : ""}from)`,
 			at: 25,
 		},
 		{
-			matcher: (path) => path === "/settings/",
+			matcher: (path) => {
+				const normalizedPath = removeLocalePrefix(path);
+				return normalizedPath === "/settings/" || normalizedPath === "/settings";
+			},
 			color: "var(--bg-gradient-blue-from)",
 			at: 25,
 		},
 		{
-			matcher: (path) => path === "/about/",
+			matcher: (path) => {
+				const normalizedPath = removeLocalePrefix(path);
+				return normalizedPath === "/about/" || normalizedPath === "/about";
+			},
 			color: "var(--bg-gradient-from)",
 			at: 25,
 		},
 		{
-			matcher: (path) => path === "/privacy/",
+			matcher: (path) => {
+				const normalizedPath = removeLocalePrefix(path);
+				return normalizedPath === "/privacy/" || normalizedPath === "/privacy";
+			},
 			color: "var(--bg-gradient-red-from)",
 			at: 100,
 		},
@@ -66,7 +95,7 @@
 	);
 </script>
 
-{#if page.url.pathname === "/"}
+{#if removeLocalePrefix(page.url.pathname) === "/" || removeLocalePrefix(page.url.pathname) === ""}
 	<div
 		class="fixed -z-30 top-0 left-0 w-screen h-screen flex items-center justify-center overflow-hidden"
 		transition:fade={{
@@ -114,7 +143,7 @@
 			easing: quintOut,
 		}}
 	></div>
-{:else if (page.url.pathname === "/convert/" || page.url.pathname === "/jpegify/") && $showGradient}
+{:else if (removeLocalePrefix(page.url.pathname) === "/convert/" || removeLocalePrefix(page.url.pathname) === "/convert" || removeLocalePrefix(page.url.pathname) === "/jpegify/" || removeLocalePrefix(page.url.pathname) === "/jpegify") && $showGradient}
 	{#key $gradientColor}
 		<div
 			id="gradient-bg"
@@ -126,7 +155,7 @@
 			}}
 		></div>
 	{/key}
-{:else if page.url.pathname === "/convert/" && files.files.length === 1 && files.files[0].blobUrl}
+{:else if removeLocalePrefix(page.url.pathname) === "/convert/" && files.files.length === 1 && files.files[0].blobUrl}
 	<div
 		class="fixed w-screen h-screen opacity-75 overflow-hidden top-0 left-0 -z-50 pointer-events-none grid grid-cols-1 grid-rows-1 scale-105"
 	>
@@ -148,7 +177,7 @@
 			></div>
 		</div>
 	</div>
-{:else if page.url.pathname === "/settings/"}
+{:else if removeLocalePrefix(page.url.pathname) === "/settings/" || removeLocalePrefix(page.url.pathname) === "/settings"}
 	<div
 		id="gradient-bg"
 		class="fixed top-0 left-0 w-screen h-screen -z-40 pointer-events-none"
@@ -158,7 +187,7 @@
 			easing: quintOut,
 		}}
 	></div>
-{:else if page.url.pathname === "/about/"}
+{:else if removeLocalePrefix(page.url.pathname) === "/about/" || removeLocalePrefix(page.url.pathname) === "/about"}
 	<div
 		id="gradient-bg"
 		class="fixed top-0 left-0 w-screen h-screen -z-40 pointer-events-none"

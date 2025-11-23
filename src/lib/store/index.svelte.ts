@@ -6,7 +6,7 @@ import { parseBlob, selectCover } from "music-metadata";
 import { writable } from "svelte/store";
 import { addDialog } from "./DialogProvider";
 import PQueue from "p-queue";
-import { getLocale, setLocale } from "$lib/paraglide/runtime";
+import { getLocale, setLocale, localizeUrl } from "$lib/paraglide/runtime";
 import { m } from "$lib/paraglide/messages";
 import sanitizeHtml from "sanitize-html";
 import { unzip } from "fflate";
@@ -444,6 +444,13 @@ export function updateLocale(newLocale: string) {
 
 	log(["locale"], `set to ${newLocale}`);
 	localStorage.setItem("locale", newLocale);
+
+	// Update the URL to reflect the new locale
+	if (typeof window !== 'undefined' && window.location) {
+		const newUrl = localizeUrl(window.location.href, { locale: newLocale });
+		history.pushState({}, '', newUrl);
+	}
+
 	// @ts-expect-error shush
 	setLocale(newLocale, { reload: false });
 	// @ts-expect-error shush

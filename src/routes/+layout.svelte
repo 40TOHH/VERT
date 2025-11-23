@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { goto, beforeNavigate, afterNavigate } from "$app/navigation";
+	import { page } from "$app/stores";
 
 	import { PUB_PLAUSIBLE_URL, PUB_HOSTNAME } from "$env/static/public";
 	import { DISABLE_ALL_EXTERNAL_REQUESTS, VERT_NAME } from "$lib/consts";
@@ -20,9 +21,8 @@
 	} from "$lib/store/index.svelte";
 	import "$lib/css/app.scss";
 	import { browser } from "$app/environment";
-	import { page } from "$app/state";
 	import { initStores as initAnimStores } from "$lib/animation/index.js";
-	import { locales, localizeHref } from "$lib/paraglide/runtime";
+	import { locales, localizeHref, extractLocaleFromUrl } from "$lib/paraglide/runtime";
 	import { VertdInstance } from "$lib/sections/settings/vertdSettings.svelte.js";
 
 	let { children, data } = $props();
@@ -41,6 +41,16 @@
 			? scrollPositions.get(nav.to.url.pathname) || 0
 			: 0;
 		window.scrollTo(0, scrollY);
+	});
+
+	// Check URL for locale on navigation and update if different
+	$effect(() => {
+		if(browser) {
+			const urlLocale = extractLocaleFromUrl(window.location.href);
+			if (urlLocale && urlLocale !== $locale) {
+				updateLocale(urlLocale);
+			}
+		}
 	});
 
 	const dropFiles = (e: DragEvent) => {
@@ -147,7 +157,11 @@
 	/>
 	<meta property="twitter:image" content={featuredImage} />
 	<link rel="manifest" href="/manifest.json" />
-	<link rel="canonical" href="https://vert.sh/" />
+	{#each locales as loc}
+		<link rel="alternate" hreflang={loc} href={localizeHref($page.url.pathname, { locale: loc })} />
+	{/each}
+	<link rel="alternate" hreflang="x-default" href={localizeHref($page.url.pathname, { locale: 'en' })} />
+	<link rel="canonical" href={localizeHref($page.url.pathname)} />
 	{#if enablePlausible}
 		<script
 			defer
@@ -197,5 +211,5 @@
 	</div>
 {/key}
 
-<!-- Gradients placed here to prevent it overlapping in transitions -->
-<Layout.Gradients />
+	<!-- Gradients placed here to prevent it overlapping in transitions -->
+	<Layout.Gradients />

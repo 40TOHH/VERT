@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { GITHUB_URL_VERT, DISCORD_URL } from "$lib/consts";
 	import { m } from "$lib/paraglide/messages";
+	import { localizeHref } from "$lib/paraglide/runtime";
 
 	const items = $derived([
 		[m["footer.source_code"](), GITHUB_URL_VERT],
 		[m["footer.discord_server"](), DISCORD_URL],
-		[m["footer.privacy_policy"](), "/privacy"],
-		[m["faq.title"](), "/faq"],
+		[m["footer.privacy_policy"](), localizeHref("/privacy")],
+		[m["faq.title"](), localizeHref("/faq")],
 	]);
 
 	const year = new Date().getFullYear();

@@ -24,6 +24,21 @@
 	import { beforeNavigate } from "$app/navigation";
 	import Tooltip from "$lib/components/visual/Tooltip.svelte";
 	import { m } from "$lib/paraglide/messages";
+	import { localizeHref } from "$lib/paraglide/runtime";
+
+	// Define the supported locales
+	const supportedLocales = ["en", "es", "fr", "de", "it", "hr", "tr", "ja", "ko", "el", "id", "zh-Hans", "zh-Hant", "ru"];
+
+	// Helper function to remove locale prefix from pathname
+	const removeLocalePrefix = (pathname: string) => {
+		const pathParts = pathname.split('/').filter(part => part !== '');
+
+		if (pathParts.length > 0 && supportedLocales.includes(pathParts[0])) {
+			// If first part is a locale, return the rest with leading slash
+			return '/' + pathParts.slice(1).join('/') + (pathname.endsWith('/') && pathParts.length > 1 ? '/' : '');
+		}
+		return pathname;
+	};
 
 	const items = $derived<
 		{
@@ -37,33 +52,47 @@
 		{
 			name: m["navbar.upload"](),
 			url: "/",
-			activeMatch: (pathname) => pathname === "/",
+			activeMatch: (pathname) => {
+				const normalizedPath = removeLocalePrefix(pathname);
+				return normalizedPath === "/" || normalizedPath === "";
+			},
 			icon: UploadIcon,
 		},
 		{
 			name: m["navbar.convert"](),
 			url: "/convert/",
-			activeMatch: (pathname) =>
-				pathname === "/convert/" || pathname === "/convert",
+			activeMatch: (pathname) => {
+				const normalizedPath = removeLocalePrefix(pathname);
+				return normalizedPath === "/convert/" || normalizedPath === "/convert";
+			},
 			icon: RefreshCw,
 			badge: files.files.length,
 		},
 		{
 			name: m["navbar.settings"](),
 			url: "/settings/",
-			activeMatch: (pathname) => pathname.startsWith("/settings"),
+			activeMatch: (pathname) => {
+				const normalizedPath = removeLocalePrefix(pathname);
+				return normalizedPath.startsWith("/settings");
+			},
 			icon: SettingsIcon,
 		},
 		{
 			name: m["navbar.about"](),
 			url: "/about/",
-			activeMatch: (pathname) => pathname.startsWith("/about"),
+			activeMatch: (pathname) => {
+				const normalizedPath = removeLocalePrefix(pathname);
+				return normalizedPath.startsWith("/about");
+			},
 			icon: InfoIcon,
 		},
 		{
 			name: m["faq.title"](),
 			url: "/faq/",
-			activeMatch: (pathname) => pathname.startsWith("/faq"),
+			activeMatch: (pathname) => {
+				const normalizedPath = removeLocalePrefix(pathname);
+				return normalizedPath.startsWith("/faq");
+			},
 			icon: InfoIcon,
 		},
 	]);
@@ -110,7 +139,7 @@
 	{@const Icon = item.icon}
 	<a
 		bind:this={links[index]}
-		href={item.url}
+		href={localizeHref(item.url)}
 		aria-label={item.name}
 		class={clsx(
 			"min-w-16 md:min-w-32 h-full relative z-10 rounded-xl flex flex-1 items-center justify-center gap-3 overflow-hidden",
