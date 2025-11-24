@@ -2,8 +2,8 @@ import type { PageLoad } from './$types';
 import { getConversionInfo } from '$lib/conversion-data';
 import { redirect, type LoadEvent } from '@sveltejs/kit';
 
-// Включаем prerender для этих страниц, так как они будут сгенерированы статически
-export const prerender = true;
+// Отключаем prerender для динамических страниц, так как они будут обработаны через SSR
+export const prerender = false;
 
 export const load: PageLoad = async (event: LoadEvent) => {
 	const { params, url } = event;

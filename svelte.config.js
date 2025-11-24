@@ -1,6 +1,5 @@
-import adapter from "@sveltejs/adapter-static";
+import adapter from "@sveltejs/adapter-node";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
-import { generateConversionRoutes } from './build-routes.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -13,20 +12,10 @@ const config = {
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 		adapter: adapter({
-			strict: false,
-			pages: 'build',
-			assets: 'build',
-			fallback: 'index.html',
-			precompress: false
+			// Настройки для SSR
 		}),
 		paths: {
 			relative: false,
-		},
-		prerender: {
-			// Enable prerendering for all possible conversion routes
-			entries: generateConversionRoutes(),
-			handleHttpError: 'warn', // Обработка HTTP ошибок при пререндере
-			handleMissingId: 'warn' // Обработка отсутствующих id в маршрутах
 		},
 		env: {
 			publicPrefix: "PUB_",
