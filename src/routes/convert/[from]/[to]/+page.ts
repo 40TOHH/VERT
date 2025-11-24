@@ -1,8 +1,8 @@
 import type { PageLoad } from './$types';
 import { getConversionInfo } from '$lib/conversion-data';
 
-// Отключаем prerender для динамических страниц, так как они будут обработаны по-другому
-export const prerender = false;
+// Включаем prerender для этих страниц, так как они будут сгенерированы статически
+export const prerender = true;
 
 export const load: PageLoad = async ({ params }) => {
 	const { from, to } = params;

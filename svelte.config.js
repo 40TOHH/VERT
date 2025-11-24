@@ -1,5 +1,6 @@
 import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import { generateConversionRoutes } from './build-routes.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -22,6 +23,8 @@ const config = {
 			relative: false,
 		},
 		prerender: {
+			// Enable prerendering for all possible conversion routes
+			entries: generateConversionRoutes(),
 			handleHttpError: 'warn', // Обработка HTTP ошибок при пререндере
 			handleMissingId: 'warn' // Обработка отсутствующих id в маршрутах
 		},
