@@ -1,5 +1,6 @@
 import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import { generateConversionRoutes } from './prerender-routes.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -16,12 +17,14 @@ const config = {
 			pages: 'build',
 			assets: 'build',
 			fallback: 'index.html',
-			precompress: false,
-			// Generate all possible routes for dynamic conversion pages
-			generate: true
+			precompress: false
 		}),
 		paths: {
 			relative: false,
+		},
+		prerender: {
+			// Enable prerendering for all possible conversion routes
+			entries: generateConversionRoutes(),
 		},
 		env: {
 			publicPrefix: "PUB_",
