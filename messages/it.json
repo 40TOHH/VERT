@@ -10,7 +10,8 @@
 	"footer": {
 		"copyright": "© {year} VERT.",
 		"source_code": "Codice sorgente",
-		"discord_server": "Server Discord"
+		"discord_server": "Server Discord",
+		"privacy_policy": "Privacy policy"
 	},
 	"upload": {
 		"title": "Il convertitore di file che amerai.",
@@ -43,6 +44,53 @@
 			"direction_input": "input (da)",
 			"direction_output": "output (a)",
 			"video_server_processing": "Per impostazione predefinita, i video vengono caricati su un server per l'elaborazione. Scopri come configurarlo in locale qui."
+		},
+		"stats": {
+			"title": "Why Choose ***?",
+			"files_converted": "500K+",
+			"formats_supported": "200+",
+			"zero_latency": "0 seconds",
+			"total_combinations": "Conversion Combinations",
+			"image_formats": "Image Formats",
+			"audio_formats": "Audio Formats",
+			"video_formats": "Video Formats",
+			"document_formats": "Document Formats",
+			"why_vert": "Why VERT?"
+		},
+		"features": {
+			"title": "Convert PNG to JPG, WebP to JPG, MKV to MP4, WAV to MP3, and any other formats online for free",
+			"speed": "File converter *** works faster than any alternative. Convert images, audio, documents, and videos to any format without delays.",
+			"local_processing": "Conversion on Your Device",
+			"local_processing_desc": "Images, audio, and documents are converted directly in the browser. Files never leave your device. No delays sending and receiving data from a server. Complete privacy.",
+			"server_processing": "Powerful Servers for Video",
+			"server_processing_desc": "Videos are converted on servers. Upload your file and get results several times faster than competitors. All files are automatically deleted after one hour.",
+			"all_formats": "Support for All Popular Formats",
+			"all_formats_desc": "Convert PNG to JPG, WebP to PNG, MKV to MP4, AVI to MP4, WAV to MP3, DOCX to PDF, PDF to Word online. Support for more than 200 formats including images, audio, documents, and video.",
+			"no_restrictions": "No Restrictions",
+			"no_restrictions_desc": "No file size limits. No registration required. Simply upload a file and get results. Completely free online converter."
+		},
+		"how_it_works": {
+			"title": "How Online File Conversion Works?",
+			"subtitle": "Just 3 Simple Steps to Convert Any File",
+			"step1": {
+				"title": "Upload File",
+				"description": "Select an image, audio, document, or video from your device."
+			},
+			"step2": {
+				"title": "Select Format",
+				"description": "Specify which format to convert to. Supports PNG, JPG, WebP, MP3, WAV, MP4, MKV, PDF, DOCX and 200+ other formats."
+			},
+			"step3": {
+				"title": "Download Result",
+				"description": "Get your converted file in just seconds. Images and audio are processed instantly, videos are faster than any alternative."
+			}
+		},
+		"try_now": {
+			"title": "Try It Right Now!",
+			"description": "Upload a file and convert it in seconds. No registration, no limits. Works in all browsers on computer and phone.",
+			"button": "Go to Converter",
+			"file_selected": "File Uploaded",
+			"choose_format": "Select Conversion Format"
 		}
 	},
 	"convert": {
@@ -90,8 +138,25 @@
 			"worker_timeout": "Il convertitore {type} sta impiegando più del previsto per inizializzare, attendi ancora qualche istante o aggiorna la pagina.",
 			"audio": "audio",
 			"doc": "documento",
-			"image": "immagine"
-		}
+			"image": "immagine",
+			"vertd_generic_view": "View error details",
+			"vertd_details": "View error details",
+			"vertd_details_body": "If you press submit, <b>your video will also be attached</b> alongside the error log which is always reported to us for review. The following information is the log that we automatically receive:",
+			"vertd_details_footer": "This information will only be used for troubleshooting purposes and will never be shared. View our [privacy_link]privacy policy[/privacy_link] for more details.",
+			"vertd_details_job_id": "<b>Job ID:</b> {jobId}",
+			"vertd_details_from": "<b>From format:</b> {from}",
+			"vertd_details_to": "<b>To format:</b> {to}",
+			"vertd_details_error_message": "<b>Error message:</b> [view_link]View error logs[/view_link]",
+			"vertd_details_close": "Close",
+			"vertd_ratelimit": "Your video, '{filename}', has failed to convert a few times. To prevent server overload, further conversion attempts for this file have been temporarily blocked. Please try again later.",
+			"format_output_only": "This format can currently only be used as output (converted to), not as input."
+		},
+		"zip_file": {
+			"extracting": "Detected ZIP archive: {filename}",
+			"extracted": "Extracted {extract_count} files from {filename}. {ignore_count} items were ignored.",
+			"extract_error": "Error extracting {filename}: {error}"
+		},
+		"large_file_warning": "Due to browser / device limitations, video to audio conversion is disabled for this file as it is larger than {limit}GB. We recommend using Firefox or Safari for files of this size since they have less limitations."
 	},
 	"settings": {
 		"title": "Impostazioni",
@@ -172,7 +237,15 @@
 			"total_size": "Dimensione Totale",
 			"files_cached_label": "File in Cache",
 			"cache_cleared": "Cache cancellata con successo!",
-			"cache_clear_error": "Impossibile cancellare la cache."
+			"cache_clear_error": "Impossibile cancellare la cache.",
+			"site_data_title": "Site data management",
+			"site_data_description": "Clear all site data including settings and cached files, resetting VERT to its default state and reloading the page.",
+			"clear_all_data": "Clear all site data",
+			"clear_all_data_confirm_title": "Clear all site data?",
+			"clear_all_data_confirm": "This will reset all settings & cache, then reload the page. This action cannot be undone.",
+			"clear_all_data_cancel": "Cancel",
+			"all_data_cleared": "All site data cleared! Reloading page...",
+			"all_data_clear_error": "Failed to clear all site data."
 		},
 		"language": {
 			"title": "Lingua",
@@ -207,7 +280,9 @@
 			"thank_you": "Grazie per la tua donazione!",
 			"payment_failed": "Pagamento fallito: {message}{period} Non ti è stato addebitato nulla.",
 			"donation_error": "Si è verificato un errore durante l'elaborazione della tua donazione. Riprova più tardi.",
-			"payment_error": "Errore nel recupero dei dettagli di pagamento. Riprova più tardi."
+			"payment_error": "Errore nel recupero dei dettagli di pagamento. Riprova più tardi.",
+			"donation_notice_official": "Your donations here go to the official VERT instance (vert.sh), and helps to support the development of the project.",
+			"donation_notice_unofficial": "Your donations here go to the operator of this VERT instance. If you wish to support the official VERT developers, please visit [official_link]vert.sh[/official_link] instead."
 		},
 		"credits": {
 			"title": "Crediti",
@@ -238,7 +313,289 @@
 			"magick": "Errore nel *worker* Magick, la conversione delle immagini potrebbe non funzionare come previsto.",
 			"ffmpeg": "Errore durante il caricamento di ffmpeg, alcune funzionalità potrebbero non funzionare.",
 			"no_audio": "Nessuno *stream* audio trovato.",
-			"invalid_rate": "Frequenza di campionamento specificata non valida: {rate}Hz"
+			"invalid_rate": "Frequenza di campionamento specificata non valida: {rate}Hz",
+			"pandoc": "Error loading Pandoc worker, document conversion may not work as expected.",
+			"file_too_large": "This file exceeds the {limit}GB browser / device limit. Try Firefox or Safari to convert this large file, which typically have higher limits."
 		}
+	},
+	"conversion": {
+		"title": "{from} to {to} Converter - Fast & Free Online Tool",
+		"description": "Convert {from} files to {to} format online. Fast, secure, and completely free file conversion using client-side processing. No file size limits.",
+		"intro": {
+			"generic": "Converting from {from} to {to} is a common requirement for many users. This conversion might be necessary for compatibility with specific software, reducing file size, improving quality, or meeting platform requirements. Our online converter makes this process simple and efficient.",
+			"jpg_to_png": "Converting JPG to PNG preserves image quality by using lossless compression, making it ideal for images requiring transparency or high fidelity.",
+			"png_to_jpg": "Converting PNG to JPEG significantly reduces file size using lossy compression, suitable for photographs and complex images.",
+			"mp3_to_wav": "Converting MP3 to WAV creates an uncompressed audio file, preserving audio quality but increasing file size significantly.",
+			"wav_to_mp3": "Converting WAV to MP3 reduces file size significantly using lossy compression, making files easier to store and share while maintaining good audio quality.",
+			"mp4_to_avi": "Converting MP4 to AVI changes the container format, which may be necessary for compatibility with older software or specific video editing tools.",
+			"avi_to_mp4": "Converting AVI to MP4 provides better compression and wider compatibility with modern devices and web platforms while preserving video quality.",
+			"pdf_to_doc": "Converting PDF to DOC allows for editable text content, making it possible to modify and update document content.",
+			"doc_to_pdf": "Converting DOC to PDF preserves document formatting across different devices and operating systems, making it ideal for distribution and printing."
+		},
+		"reason": {
+			"software_compatibility": "Compatibility with software that only supports {format}",
+			"compression": "Different compression algorithms that may reduce file size",
+			"quality": "Different quality characteristics that may be preferable",
+			"platform": "Platform requirements (web, mobile, or desktop applications)",
+			"jpg_to_png": {
+				"quality": "To preserve image quality with lossless compression",
+				"transparency": "To use transparency/alpha channel",
+				"text_art": "For images with text or line art",
+				"archiving": "When archiving important photos"
+			},
+			"png_to_jpg": {
+				"reduce_size": "To significantly reduce file size",
+				"web_use": "For web use where smaller files are preferred",
+				"no_transparency": "When transparency is not needed",
+				"email": "For email attachments with size limits"
+			},
+			"uncompressed_quality": "To achieve uncompressed audio quality",
+			"audio_editing": "For audio editing purposes",
+			"archiving_audio": "To preserve original quality for archiving",
+			"professional_software": "For use in professional audio software",
+			"wav_to_mp3": {
+				"reduce_size": "To reduce file size for storage or sharing",
+				"portable_players": "For portable music players",
+				"streaming": "For streaming or web use",
+				"quality_over_size": "When file size is more important than quality"
+			},
+			"compatibility_old_software": "For compatibility with older video software",
+			"video_editing": "Video editing with specific tools",
+			"platform_requirements": "Specific platform requirements",
+			"legacy_systems": "When working with legacy systems",
+			"better_compression": "For better compression and smaller file sizes",
+			"modern_device_compatibility": "For compatibility with modern devices",
+			"web_streaming": "For web streaming",
+			"reduce_storage": "To reduce storage requirements",
+			"make_documents_editable": "To make documents editable",
+			"collaboration_revision": "For collaboration and revision",
+			"extract_text": "To extract text content",
+			"word_processing": "For use in word processing software",
+			"preserve_formatting": "To preserve document formatting",
+			"universal_compatibility": "For universal compatibility",
+			"secure_distribution": "For secure document distribution",
+			"printing": "For printing purposes"
+		},
+		"step": {
+			"upload": "Upload your {format} file using the converter above",
+			"verify": "Verify that the output format is set to {format}",
+			"convert": "Click the \"Convert\" button to start the conversion",
+			"download": "Download your converted {format} file when complete"
+		},
+		"tip": {
+			"check_file": "Ensure your {format} file is not corrupted before conversion",
+			"use_original": "For best results, use original high-quality files when possible",
+			"check_size": "Check the file size limitations if converting large files",
+			"png_larger_than_jpg": "PNG files are typically larger than JPEGs",
+			"png_for_few_colors": "Use {format} for images with few colors or text",
+			"jpg_sufficient": "For photographs, consider if {format} is sufficient",
+			"jpg_quality_setting": "Choose a high JPEG quality setting for better results",
+			"remove_transparency": "Remove transparency before conversion",
+			"lossy_acceptable": "Consider whether lossy compression is acceptable",
+			"wav_larger_than_mp3": "{format1} files are much larger than {format2}s",
+			"quality_over_size": "Use this format when quality is more important than file size",
+			"other_lossless": "Consider other lossless formats like {format} for better compression",
+			"appropriate_bitrate": "Choose an appropriate bitrate (192kbps or higher for good quality)",
+			"specific_use_case": "Consider your specific use case when selecting quality",
+			"keep_original_wav": "Keep original WAV files for archival purposes",
+			"avi_larger_than_mp4": "{format1} files may be larger than {format2} equivalents",
+			"check_codec_compatibility": "Check codec compatibility after conversion",
+			"keep_mp4_web": "Consider keeping MP4 for web streaming",
+			"mp4_better_compression": "{format1} offers better compression than {format2}",
+			"verify_quality_settings": "Verify quality settings to preserve video quality",
+			"h264_h265_best": "Consider H.264 or H.265 for best results",
+			"complex_layouts_not_perfect": "Complex layouts may not convert perfectly",
+			"review_formatting": "Review formatting after conversion",
+			"text_extraction_alternative": "For simple text, consider text extraction instead",
+			"pdfs_not_editable": "PDFs are not editable without specific software",
+			"check_formatting_before_finalizing": "Check formatting before finalizing",
+			"consider_accessibility": "Consider accessibility requirements"
+		},
+		"use_case": {
+			"compatibility": "Software compatibility",
+			"size": "File size reduction",
+			"quality": "Quality optimization",
+			"platform": "Platform adaptation",
+			"web_graphics": "Web graphics with transparency",
+			"logos": "Logos and icons",
+			"text_art": "Images with text or line art",
+			"archiving": "Archiving important photos",
+			"web_photography": "Web photography",
+			"email_attachments": "Email attachments",
+			"social_media": "Social media sharing",
+			"size_limits": "Situations with file size limits",
+			"audio_editing": "Audio editing and production",
+			"professional_recording": "Professional recording",
+			"cd_burning": "CD burning",
+			"portable_players": "Portable music players",
+			"streaming_services": "Streaming services",
+			"general_music": "General music listening",
+			"legacy_editing": "Legacy video editing software",
+			"older_players": "Older media players",
+			"broad_compatibility": "Archival with broad compatibility",
+			"web_video_hosting": "Web video hosting",
+			"mobile_compatibility": "Mobile device compatibility",
+			"reduce_storage": "Reducing storage space",
+			"document_editing": "Document editing",
+			"content_revision": "Content revision",
+			"text_extraction": "Text extraction",
+			"academic_business": "Academic or business use",
+			"document_distribution": "Document distribution",
+			"academic_submissions": "Academic submissions",
+			"professional_presentations": "Professional presentations",
+			"print_ready": "Print-ready documents"
+		},
+		"quality_note": {
+			"lossy_to_lossy": "Converting from a lossy format to another lossy format may reduce quality",
+			"backup": "Always keep original files as backup",
+			"png_lossless": "PNG files are lossless and preserve all image data",
+			"png_larger_files": "File sizes will be larger than {format2} equivalents",
+			"jpg_lossy": "JPEG is lossy and will reduce image quality",
+			"jpg_transparency_lost": "Transparency will be lost in conversion",
+			"jpg_repeat_degrade": "Repeated conversions will further degrade quality",
+			"mp3_to_wav_no_restore": "Converting from MP3 to WAV does not restore lost quality",
+			"mp3_artifacts_remain": "Original MP3 compression artifacts will remain",
+			"mp3_lossy": "MP3 is lossy and will reduce audio quality",
+			"mp3_no_restore": "Once converted, lost quality cannot be restored",
+			"mp3_preserve_info": "Higher bitrates preserve more audio information",
+			"conversion_change_compression": "Conversion may change compression methods",
+			"file_size_increase": "File size may increase significantly",
+			"quality_vary_codec": "Quality may vary based on codec used",
+			"mp4_compression_efficiency": "MP4 typically provides better compression efficiency",
+			"quality_maintained_settings": "Quality can be maintained with appropriate settings",
+			"h264_h265_best": "H.264 or H.265 codecs provide the best results",
+			"complex_formatting_lost": "Complex formatting may be lost during conversion",
+			"images_separate": "Images may require separate handling",
+			"tables_layout_adjust": "Tables and layouts may need adjustment",
+			"pdfs_formatting_reliable": "PDFs preserve original formatting reliably",
+			"file_size_varies": "File size may be smaller or larger depending on content",
+			"pdfs_more_secure": "PDFs are more secure and harder to modify"
+		}
+	},
+	"faq": {
+		"title": "Frequently Asked Questions",
+		"questions": {
+			"is_free": {
+				"question": "Is it free?",
+				"answer": "Yes. The converter is completely free. No paid subscriptions or hidden payments. All features are available without restrictions."
+			},
+			"is_safe": {
+				"question": "Is it safe to upload files?",
+				"answer": "Yes. Images, audio, and documents are converted directly in the browser. They never leave your device. Videos are uploaded to the server but automatically deleted after one hour. We don't store or view your files."
+			},
+			"formats_supported": {
+				"question": "What formats are supported?",
+				"answer": "We support more than 200 formats. Images: PNG, JPG, WebP, HEIC, SVG, GIF, AVIF and others. Audio: MP3, WAV, FLAC, OGG, AAC, M4A and others. Video: MP4, MKV, AVI, MOV, WebM, FLV and others. Documents: PDF, DOCX, DOC, HTML, EPUB, ODT and others."
+			},
+			"file_size_limit": {
+				"question": "Are there any file size limits?",
+				"answer": "No. You can upload files of any size. There are no limits for images, videos, or documents."
+			},
+			"registration_required": {
+				"question": "Is registration required?",
+				"answer": "No. Simply open the website, upload a file, and convert. No email, no password, no personal data."
+			},
+			"mobile_compatible": {
+				"question": "Does it work on phones?",
+				"answer": "Yes. *** works in all browsers on phones and tablets. The interface is adapted for mobile devices."
+			},
+			"why_video_server": {
+				"question": "Why are videos converted on the server?",
+				"answer": "Video conversion requires a lot of resources. Your phone or computer might not handle it or will work slowly. Our servers convert videos several times faster. All files are deleted after an hour."
+			},
+			"quality_loss": {
+				"question": "Is quality lost during conversion?",
+				"answer": "Depends on the format. During PNG to JPG or WebP to JPG conversion, there might be slight compression. But you can manually adjust quality. Most conversions happen without quality loss."
+			},
+			"supported_browsers": {
+				"question": "Which browsers are supported?",
+				"answer": "Chrome, Firefox, Safari, Edge, and other modern browsers. If the browser was released in the last 2-3 years, VERT will work."
+			},
+			"batch_conversion": {
+				"question": "Can I convert multiple files at once?",
+				"answer": "Yes. Upload several files simultaneously. They will be processed one by one. You can download each file separately or all together as an archive."
+			},
+			"metadata_preserved": {
+				"question": "Are file metadata preserved?",
+				"answer": "Depends on the format. In most cases, basic metadata is preserved. If you want to remove metadata, you can use our cleaning tool before conversion."
+			},
+			"why_faster": {
+				"question": "Why does *** work faster than other converters?",
+				"answer": "Images, audio, and documents are processed on your device. No server delays. Videos are converted on powerful servers that are 5-10 times faster than regular processors."
+			}
+		}
+	},
+	"format": {
+		"description": {
+			"jpg": "a lossy compressed image format ideal for photographs",
+			"png": "a lossless compressed image format supporting transparency",
+			"gif": "a format supporting animated images and simple graphics",
+			"mp3": "a lossy compressed audio format with small file sizes",
+			"wav": "an uncompressed audio format preserving all audio data",
+			"mp4": "a compressed multimedia container format widely compatible",
+			"avi": "a multimedia container format developed by Microsoft",
+			"pdf": "a document format preserving layout across platforms",
+			"doc": "a proprietary document format for Microsoft Word",
+			"docx": "a modern XML-based document format for Microsoft Word",
+			"common": "a common file format"
+		},
+		"comparison": {
+			"jpg_png": "JPG uses lossy compression while PNG uses lossless compression",
+			"png_jpg": "PNG preserves quality but creates larger files compared to JPG",
+			"mp3_wav": "MP3 uses lossy compression while WAV is uncompressed",
+			"wav_mp3": "WAV preserves all audio data while MP3 reduces file size",
+			"mp4_avi": "MP4 offers better compression and cross-platform compatibility",
+			"avi_mp4": "MP4 provides more efficient compression than AVI",
+			"pdf_doc": "PDF preserves formatting while DOC allows editing",
+			"doc_pdf": "DOC allows editing while PDF preserves formatting across platforms",
+			"default": "The {from} format has different characteristics than {to}"
+		}
+	},
+	"quality_impact": {
+		"jpg_to_png": "Converting from JPG to PNG will not restore quality lost during the original JPG compression, but it will preserve the current quality using lossless compression.",
+		"png_to_jpg": "Converting from PNG to JPG will reduce quality due to JPG's lossy compression algorithm. The extent of quality loss depends on the JPG quality setting used during conversion.",
+		"mp3_to_wav": "Converting from MP3 to WAV will not restore audio quality that was lost during the original MP3 compression. WAV will preserve the current quality level but in an uncompressed format.",
+		"wav_to_mp3": "Converting from WAV to MP3 will reduce audio quality due to MP3's lossy compression. However, using higher bitrates (192kbps or above) can maintain good audio quality.",
+		"mp4_to_avi": "Converting from MP4 to AVI typically preserves video quality but may result in larger file sizes depending on the codec used.",
+		"avi_to_mp4": "Converting from AVI to MP4 typically maintains video quality while reducing file size due to MP4's more efficient compression.",
+		"default": "The impact on quality depends on the specific formats involved. Converting from a lossy format to another lossy format typically results in some quality loss, while converting to a lossless format preserves existing quality."
+	},
+	"privacy": {
+		"title": "Privacy Policy",
+		"summary": {
+			"title": "Summary",
+			"description": "VERT's privacy policy is very simple: we do not collect or store any data on you at all. We don't use cookies or trackers, analytics are completely private, and all conversions (except videos) happen locally on your browser. Videos are deleted after being downloaded, or an hour, unless explicitly given permission by you to be stored; it will only be used for the purpose of troubleshooting. VERT self-hosts a Coolify instance for hosting the website and vertd (for video conversion), and a Plausible instance for completely anonymous and aggregated analytics. We use Stripe to process donations, which may collect some data used for fraud prevention.<br/><br/>Note this may only apply to the official VERT instance at [vert_link]vert.sh[/vert_link]; third-party instances may handle your data differently."
+		},
+		"conversions": {
+			"title": "Conversions",
+			"description": "Most conversions (images, documents, audio) happen entirely locally on your device using WebAssembly versions of the relevant tools (e.g. ImageMagick, Pandoc, FFmpeg). This means your files never leave your device and we will never have access to them.<br/><br/>Video conversions are performed on our servers because they require more processing power and cannot be done very quickly on the browser yet. Videos you convert with VERT are deleted after being downloaded, or after one hour, unless you explicitly give permission for us to store them longer purely for troubleshooting purposes."
+		},
+		"donations": {
+			"title": "Donations",
+			"description": "We use Stripe on the [about_link]about[/about_link] page to collect donations. Stripe may collect certain information about the payment and device for fraud prevention as described in [stripe_link]their documentation on advanced fraud detection[/stripe_link]. External network requests to Stripe are deferred, and are only made after you click the button to pay."
+		},
+		"conversion_errors": {
+			"title": "Conversion Errors",
+			"description": "When a video conversion fails, we may collect some anonymous data to help us diagnose the issue. This data may include:",
+			"list_job_id": "The job ID, which is the anonymized file name",
+			"list_format_from": "The format you converted from",
+			"list_format_to": "The format you converted to",
+			"list_stderr": "The FFmpeg stderr output of your job (error message)",
+			"list_video": "The actual video file (if given explicit permission)",
+			"footer": "This information is used solely for the purpose of diagnosing conversion issues. The actual video file will only ever be collected if you give us permission to do so, where it will only be used for troubleshooting."
+		},
+		"analytics": {
+			"title": "Analytics",
+			"description": "We self-host a Plausible instance for completely anonymous and aggregated analytics. Plausible does not use cookies and complies with all major privacy regulations (GDPR/CCPA/PECR). You can opt out of analytics in the \"Privacy & data\" section in [settings_link]settings[/settings_link] and read more about Plausible's privacy practices [plausible_link]here[/plausible_link]."
+		},
+		"local_storage": {
+			"title": "Local Storage",
+			"description": "We use your browser's local storage to save your settings, and your browser's session storage to temporarily store the GitHub contributors list for the \"About\" section to reduce repeated GitHub API requests. No personal data is stored or transmitted.<br/><br/>The WebAssembly versions of the conversion tools we use (FFmpeg, ImageMagick, Pandoc) are also stored locally on your browser when you first visit the website, so you don't need to redownload them each visit. No personal data is stored or transmitted. You may view or delete this data at any time in the \"Privacy & data\" section in [settings_link]settings[/settings_link]."
+		},
+		"contact": {
+			"title": "Contact",
+			"description": "For questions, email us at: [email_link]hello@vert.sh[/email_link]. If you are using a third-party instance of VERT, please contact the hoster of that instance instead."
+		},
+		"last_updated": "Last updated: 2025-10-29"
 	}
 }

@@ -1,11 +1,16 @@
 <script lang="ts">
     import type { ConversionInfo } from '$lib/conversion-data';
     import { generateFAQContent } from '$lib/content-generation';
+    import { getLocale } from '$lib/paraglide/runtime';
+    import type { AvailableLanguageTag } from '$lib/paraglide/runtime';
     import Panel from '$lib/components/visual/Panel.svelte';
 
     let { conversionInfo, isLoading = false }: { conversionInfo: ConversionInfo; isLoading?: boolean } = $props();
 
-    let faqs = $derived(generateFAQContent(conversionInfo));
+    // Extract language tag from the current locale
+    const languageTag: AvailableLanguageTag = $derived(getLocale());
+
+    let faqs = $derived(generateFAQContent(conversionInfo, languageTag));
 </script>
 
 {#if isLoading}

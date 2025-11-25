@@ -64,7 +64,15 @@ const config = {
 		},
 		prerender: {
 			// Включить популярные маршруты в сборку для улучшения производительности
-			entries: calculateEntries()
+			entries: calculateEntries(),
+			handleUnseenRoutes: (details) => {
+				if (details.path === '/sitemap.xml') {
+					// Don't treat sitemap.xml as an error during prerendering
+					return false;
+				}
+				// For any other unseen routes, continue normally (could fail or handle as needed)
+				return false;
+			}
 		},
 		env: {
 			publicPrefix: "PUB_",

@@ -27,6 +27,8 @@
 		InfoIcon
 	} from 'lucide-svelte';
 	import { m } from '$lib/paraglide/messages';
+	import type { AvailableLanguageTag } from '$lib/paraglide/runtime';
+	import { getLocale } from '$lib/paraglide/runtime';
 	import { Settings } from '$lib/sections/settings/index.svelte';
 	import { generateConversionContent } from '$lib/content-generation';
 
@@ -52,11 +54,14 @@
 
 	const { from, to, converter: converterName, fromFormat, toFormat, description } = data.conversionInfo;
 
-	// Generate conversion-specific content
-	const content = generateConversionContent(data.conversionInfo);
+	// Extract language tag from URL
+	const languageTag: AvailableLanguageTag = $derived(getLocale());
 
-	let pageTitle = content.title;
-	let pageDescription = content.description;
+	// Generate conversion-specific content (using reactive statement)
+	let content = $derived(generateConversionContent(data.conversionInfo, languageTag));
+
+	let pageTitle = $derived(content.title);
+	let pageDescription = $derived(content.description);
 
 	// Determine category for styling
 	let category: string | undefined;
