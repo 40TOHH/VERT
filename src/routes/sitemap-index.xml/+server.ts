@@ -12,14 +12,15 @@ export const GET: RequestHandler = async () => {
 	const sitemapEntries = locales.map(locale => {
 		const path = locale === 'en' ? '/sitemap.xml' : `/sitemap-${locale}.xml`;
 		return `<sitemap>
-				<loc>${baseUrl}${path}</loc>
-			</sitemap>`;
+			<loc>${baseUrl}${path}</loc>
+			<lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+		</sitemap>`;
 	}).join('\n');
 
 	const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
-		<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-			${sitemapEntries}
-		</sitemapindex>`;
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	${sitemapEntries}
+</sitemapindex>`;
 
 	return new Response(sitemapIndex, {
 		headers: {

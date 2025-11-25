@@ -1,25 +1,30 @@
-/**
- * Sitemap endpoint for the default locale (English)
- *
- * This endpoint generates the main sitemap for the English version of the site.
- * It includes all pages with proper hreflang links to other language versions.
- */
-import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { SitemapService } from '$lib/services/sitemap.service';
+
+export const prerender = true;
 
 export const GET: RequestHandler = async () => {
-  try {
-    const sitemapService = new SitemapService();
-    const sitemapXml = sitemapService.generateMainSitemap();
+	const baseUrl = 'https://vert.sh'; // This should be configured based on environment
 
-    return new Response(sitemapXml, {
-      headers: {
-        'Content-Type': 'application/xml',
-      }
-    });
-  } catch (err) {
-    console.error('Error generating sitemap:', err);
-    return error(500, 'Internal Server Error');
-  }
+	// List of all supported locales
+	const locales = ['en', 'es', 'fr', 'de', 'it', 'hr', 'tr', 'ja', 'ko', 'el', 'id', 'zh-Hans', 'zh-Hant', 'ru'];
+
+	// Create sitemap entries for each locale
+	const sitemapEntries = locales.map(locale => {
+		const path = `/sitemap-${locale}.xml`;
+		return `<sitemap>
+			<loc>${baseUrl}${path}</loc>
+			<lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+		</sitemap>`;
+	}).join('\n');
+
+	const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	${sitemapEntries}
+</sitemapindex>`;
+
+	return new Response(sitemapIndex, {
+		headers: {
+			'Content-Type': 'application/xml'
+		}
+	});
 };
