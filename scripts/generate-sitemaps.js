@@ -78,7 +78,9 @@ const indexPath = join(process.cwd(), 'static', 'sitemap-index.xml');
 writeFileSync(indexPath, sitemapIndex);
 console.log('Generated sitemap-index.xml');
 
-// Also generate a robots.txt file
+// Note: Not generating robots.txt to preserve manual configuration
+// If you need to regenerate robots.txt, uncomment below:
+/*
 const robotsTxt = `User-agent: *
 Allow: /
 
@@ -87,3 +89,4 @@ Sitemap: https://vert.sh/sitemap-index.xml`;
 const robotsPath = join(process.cwd(), 'static', 'robots.txt');
 writeFileSync(robotsPath, robotsTxt);
 console.log('Generated robots.txt');
+*/

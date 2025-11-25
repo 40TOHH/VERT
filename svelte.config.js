@@ -30,7 +30,6 @@ function calculateEntries() {
 
 	// Add sitemap routes
 	routes.push('/sitemap-convert.xml');
-	routes.push('/sitemap-index.xml');
 
 	// Generate routes for popular formats combinations
 	for (const from of popularFormats) {
